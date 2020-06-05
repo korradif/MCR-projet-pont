@@ -1,0 +1,2 @@
+interface IMilitaryTime extends ITime {
+}
