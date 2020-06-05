@@ -1,21 +1,27 @@
 package Bridge.Abstraction;
 
-import Bridge.Implementation.Behaviour.Behaviour;
-import Bridge.Implementation.Behaviour.eBehaviourType;
+import Bridge.Implementation.Behaviour.*;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class VirusT  extends Rectangle implements IVirus  {
-    Behaviour behaviourImplementation;
+    public Behaviour behaviourImplementation;
+
 
     @Override
-    public void setBehaviour(eBehaviourType behaviourType) {
-
+    public void setBehaviour(Behaviour behaviour) {
+        behaviourImplementation = behaviour;
     }
 
     @Override
-    public eBehaviourType getBehaviour() {
-        return null;
+    public Behaviour getBehaviour() {
+        return behaviourImplementation;
+    }
+
+    @Override
+    public void kill(){
+
     }
 }

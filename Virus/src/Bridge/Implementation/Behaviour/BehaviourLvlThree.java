@@ -1,4 +1,4 @@
 package Bridge.Implementation.Behaviour;
 
-public class BehaviourLvlThree {
+public class BehaviourLvlThree extends  Behaviour {
 }

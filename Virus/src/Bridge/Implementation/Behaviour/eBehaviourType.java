@@ -8,6 +8,16 @@ public enum eBehaviourType {
 
     private String _bheaviourType = "";
 
+    public eBehaviourType getNext() {
+        return this.ordinal() < eBehaviourType.values().length - 1
+                ? eBehaviourType.values()[this.ordinal() + 1]
+                : eBehaviourType.values()[0];
+    }
+
+    public boolean isLastValue(){
+        return this.ordinal() == eBehaviourType.values().length - 1;
+    }
+
     //Constructeur
     eBehaviourType(String bheaviourType){
         _bheaviourType = bheaviourType;
