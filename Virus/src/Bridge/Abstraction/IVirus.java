@@ -30,7 +30,7 @@ public interface IVirus extends Bouncable {
     void setVX(int vx);
     int getVY();
     void setVY(int vy);
-
+    boolean isDead();
     int getSize();
     void setSize(int size);
 }

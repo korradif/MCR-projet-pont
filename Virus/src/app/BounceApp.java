@@ -21,7 +21,7 @@ public class BounceApp {
     private static final String APP_NAME = "VirusGame";
     private static final int FRAME_RATE = 1000/60;
     private static final int INITIAL_DELAY = 0;
-    private static final int MINIMAL_VIRUS = 1;
+    private static final int MINIMAL_VIRUS = 0;
 
     private final VirusFactory VIRUS_FACTORY;
 
@@ -100,10 +100,17 @@ public class BounceApp {
 
                 // animation
                 displayer.getGraphics();
+
+                synchronized (bouncers){
+                    bouncers.removeIf( e -> ((IVirus)e).isDead() );
+                }
+
                 synchronized (bouncers) {
                     for (Bouncable b : bouncers) {
-                        b.move();
-                        b.draw();
+                        {
+                            b.move();
+                            b.draw();
+                        }
                     }
                 }
                 displayer.repaint();

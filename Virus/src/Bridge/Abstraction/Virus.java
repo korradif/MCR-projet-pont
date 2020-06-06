@@ -20,6 +20,7 @@ public abstract class Virus implements IVirus{
     private final Renderable RENDERABLE;
 
     private IBehaviour behaviourImplementation;
+    boolean isDead;
     private int x;
     private int y;
     private int vx;
@@ -37,7 +38,7 @@ public abstract class Virus implements IVirus{
         this.x =  MAX_SIZE + RAND.nextInt(displayer.getWidth() - MAX_SIZE);
         this.y =  MAX_SIZE  + RAND.nextInt(displayer.getHeight() - MAX_SIZE);
         this.COLOR = color;
-
+        this.isDead = false;
         this.RENDERABLE = renderable;
     }
 
@@ -123,7 +124,12 @@ public abstract class Virus implements IVirus{
 
     @Override
     public void kill(){
+        this.isDead = true;
+    }
 
+    @Override
+    public boolean isDead() {
+        return isDead;
     }
 
     @Override
