@@ -12,8 +12,8 @@ import java.util.Random;
 public abstract class Virus implements IVirus{
     private static final int MIN_SIZE = 20;
     private static final int MAX_SIZE = 50;
-    private static final int MIN_SPEED = 0;
-    private static final int MAX_SPEED = 2;
+    private static final int MIN_SPEED = 1;
+    private static final int MAX_SPEED = 4;
     private static final Random RAND = new Random();
 
     private final Color COLOR;
