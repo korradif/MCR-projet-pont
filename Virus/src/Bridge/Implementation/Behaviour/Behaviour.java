@@ -1,4 +1,11 @@
 package Bridge.Implementation.Behaviour;
 
-public abstract class Behaviour {
+import Bridge.Abstraction.IVirus;
+
+public abstract class Behaviour implements IBehaviour{
+    IVirus _virus;
+
+   public Behaviour(IVirus virus){
+       _virus = virus;
+   }
 }
