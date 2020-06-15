@@ -6,8 +6,9 @@
  */
 package app;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
 
 /**
  * @brief un afficheur de formes
@@ -19,4 +20,6 @@ public interface Displayer {
     void repaint();
     void setTitle(String s);
     void addKeyListener(KeyAdapter ka);
+    void addMouseListener(MouseAdapter ma);
+
 }

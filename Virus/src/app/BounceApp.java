@@ -11,7 +11,10 @@ import BusinessLogic.VirusLogic;
 import factory.VirusFactory;
 
 import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
+
 import java.util.*;
 
 /**
@@ -19,7 +22,7 @@ import java.util.*;
  */
 public class BounceApp {
     private static final String APP_NAME = "VirusGame";
-    private static final int FRAME_RATE = 1000/60;
+    private static final int FRAME_RATE = 1000 / 60;
     private static final int INITIAL_DELAY = 0;
     private static final int MINIMAL_VIRUS = 0;
 
@@ -37,13 +40,13 @@ public class BounceApp {
         Displayer displayer = DisplayerManager.getInstance();
         displayer.setTitle(APP_NAME);
         this.VIRUS_FACTORY = new VirusFactory();
-        this.bouncers =  Collections.synchronizedList(new LinkedList<>());
+        this.bouncers = Collections.synchronizedList(new LinkedList<>());
         this.virusLogic = new VirusLogic();
         // notre application possede les interactions
-        displayer.addKeyListener(new KeyAdapter(){
+        displayer.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyChar()){
+                switch (e.getKeyChar()) {
                     case 'e': // effacer l'affichage
                         bouncers = Collections.synchronizedList(new LinkedList<>());
                         break;
@@ -60,8 +63,8 @@ public class BounceApp {
                     case ' ': // generer 10 cercles et 10 carres possedant une bordure
                         System.out.println("space pressed");
                         timer.cancel();
-                        for(Bouncable v : bouncers){
-                            virusLogic.mutateVirus((IVirus)v);
+                        for (Bouncable v : bouncers) {
+                            virusLogic.mutateVirus((IVirus) v);
                         }
                         loop();
                         break;
@@ -73,13 +76,23 @@ public class BounceApp {
                 }
             }
         });
+
+        displayer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e); // TODO delete this line maybe ?
+                for (Bouncable b : bouncers) {
+                    ((IVirus) b).reactToMouseEvent(e.getPoint().getX(), e.getPoint().getY());
+                }
+            }
+        });
     }
 
     /**
      * @brief point d'entree du programme
      * @param args
      */
-    public static void main(String ... args) {
+    public static void main(String... args) {
         new BounceApp().loop();
     }
 
@@ -93,16 +106,16 @@ public class BounceApp {
             @Override
             public void run() {
                 // nombre minimale de virus maintenu
-                if(bouncers.size() < MINIMAL_VIRUS){
-                    bouncers =  Collections.synchronizedList(new LinkedList<>());
+                if (bouncers.size() < MINIMAL_VIRUS) {
+                    bouncers = Collections.synchronizedList(new LinkedList<>());
                     addVirusT();
                 }
 
                 // animation
                 displayer.getGraphics();
 
-                synchronized (bouncers){
-                    bouncers.removeIf( e -> ((IVirus)e).isDead() );
+                synchronized (bouncers) {
+                    bouncers.removeIf(e -> ((IVirus) e).isDead());
                 }
 
                 synchronized (bouncers) {
@@ -121,7 +134,7 @@ public class BounceApp {
     /**
      * @brief ajoutes des formes a l'application
      */
-    private void addVirus(IVirus virus){
+    private void addVirus(IVirus virus) {
         bouncers.add(virus);
 
     }
@@ -140,7 +153,7 @@ public class BounceApp {
      */
     private void addVirusT() {
         synchronized (bouncers) {
-        addVirus(VIRUS_FACTORY.createVirusT());
+            addVirus(VIRUS_FACTORY.createVirusT());
         }
     }
 }

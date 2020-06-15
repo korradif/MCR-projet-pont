@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
@@ -32,9 +33,8 @@ public class DisplayerManager implements Displayer {
      * @brief le singleton
      * @return l'instance du singleton
      */
-    public static Displayer getInstance()
-    {
-        if (Objects.isNull(instance)){ // == null
+    public static Displayer getInstance() {
+        if (Objects.isNull(instance)) { // == null
             instance = new DisplayerManager();
         }
 
@@ -68,7 +68,9 @@ public class DisplayerManager implements Displayer {
     }
 
     @Override
-    public Graphics2D getGraphics() { return this.g2d; }
+    public Graphics2D getGraphics() {
+        return this.g2d;
+    }
 
     @Override
     public void repaint() {
@@ -103,5 +105,10 @@ public class DisplayerManager implements Displayer {
                 ka.keyReleased(e);
             }
         });
+    }
+
+    @Override
+    public void addMouseListener(MouseAdapter ma) {
+        this.FRAME.addMouseListener(ma);
     }
 }
