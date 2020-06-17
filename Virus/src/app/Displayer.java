@@ -6,6 +6,7 @@
  */
 package app;
 
+import javax.swing.*;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
@@ -21,5 +22,5 @@ public interface Displayer {
     void setTitle(String s);
     void addKeyListener(KeyAdapter ka);
     void addMouseListener(MouseAdapter ma);
-
+    void launchLauncher();
 }

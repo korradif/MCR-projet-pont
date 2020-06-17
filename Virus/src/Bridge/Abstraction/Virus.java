@@ -150,14 +150,5 @@ public abstract class Virus implements IVirus {
         launchBehaviour();
     }
 
-    @Override
-    public void reactToMouseEvent(double x, double y) {
-        // TODO Ici on peut appeler ce qu'on veut en fonction de la position.
-        if (getShape().contains(x, y)) {
-            System.out.println("Touché !");
-        } else {
-            System.out.println("Coup dans l'eau !");
-        }
 
-    }
 }

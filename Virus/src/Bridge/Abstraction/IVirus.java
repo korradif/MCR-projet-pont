@@ -33,6 +33,4 @@ public interface IVirus extends Bouncable {
     boolean isDead();
     int getSize();
     void setSize(int size);
-
-    void reactToMouseEvent(double x, double y);
 }

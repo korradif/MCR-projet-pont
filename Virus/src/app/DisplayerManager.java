@@ -6,13 +6,19 @@
  */
 package app;
 
+import Bridge.Abstraction.IVirus;
+import BusinessLogic.VirusLogic;
+import factory.VirusFactory;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.Objects;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.Timer;
 
 /**
  * @brief classe donnant acces au singleton de l'affichage
@@ -20,14 +26,23 @@ import java.util.Objects;
 public class DisplayerManager implements Displayer {
     private static final int INIT_WIDTH = 600;
     private static final int INIT_HEIGHT = 600;
+    private static final int FRAME_RATE = 1000 / 60;
+    private static final int INITIAL_DELAY = 0;
+    private static final int MINIMAL_VIRUS = 0;
 
     private static Displayer instance; // le singleton
+    private final VirusFactory VIRUS_FACTORY;
+    private final VirusLogic virusLogic;
+    private Collection<IVirus> viruses;
+    private Timer timer;
 
-    private final JFrame FRAME;
-    private final Panel PANEL;
+    public final JFrame FRAME;
+    private final Panel launcher;
 
     private BufferedImage bufferedImage;
     private Graphics2D g2d;
+    private int nbViruses;
+    private boolean isGameRunning;
 
     /**
      * @brief le singleton
@@ -45,38 +60,153 @@ public class DisplayerManager implements Displayer {
      * @brief constructeur prive du singleton
      */
     private DisplayerManager() {
-        this.PANEL = new Panel(INIT_WIDTH, INIT_HEIGHT);
-        this.FRAME = new JFrame();
-        this.FRAME.setPreferredSize(new Dimension(INIT_WIDTH, INIT_HEIGHT));
-        this.FRAME.getContentPane().add(this.PANEL);
-        this.FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.FRAME.setSize(INIT_WIDTH, INIT_HEIGHT);
-        this.FRAME.setVisible(true);
+        launcher = new Panel(INIT_WIDTH, INIT_HEIGHT);
+        FRAME = new JFrame();
+        FRAME.setPreferredSize(new Dimension(INIT_WIDTH, INIT_HEIGHT));
 
-        this.bufferedImage = (BufferedImage) this.PANEL.createImage(getWidth(), getHeight());
-        this.g2d = (Graphics2D) bufferedImage.getGraphics();
+        VIRUS_FACTORY = new VirusFactory();
+        viruses = Collections.synchronizedList(new LinkedList<>());
+        virusLogic = new VirusLogic();
+
     }
+    public void startGame(int nbInitialViruses) {
+        isGameRunning = true;
+        for(int i = 0; i<nbInitialViruses;++i) {
+            addVirusG();
+            addVirusT();
+        }
+        nbViruses = nbInitialViruses * 2; //because 2 types of viruses
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // nombre minimale de virus maintenu
+                if (viruses.size() < MINIMAL_VIRUS) {
+                    viruses = Collections.synchronizedList(new LinkedList<>());
+                    addVirusT();
+                }
+
+                // animation
+                getGraphics();
+
+                synchronized (viruses) {
+                    viruses.removeIf(e -> e.isDead());
+                    if(isGameRunning && viruses.isEmpty()){
+                        timer.cancel();
+                        isGameRunning = false;
+                        displayLauncher();
+                    }
+
+                }
+
+                synchronized (viruses) {
+                    for (Bouncable b : viruses) {
+                        {
+                            b.move();
+                            b.draw();
+                        }
+                    }
+                }
+                repaint();
+            }
+        }, INITIAL_DELAY, FRAME_RATE);
+    }
+    public void launchLauncher(){
+        displayLauncher();
+        FRAME.getContentPane().add(launcher);
+        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        FRAME.setSize(INIT_WIDTH, INIT_HEIGHT);
+        FRAME.setVisible(true);
+        bufferedImage = (BufferedImage) this.launcher.createImage(getWidth(), getHeight());
+        g2d = (Graphics2D) bufferedImage.getGraphics();
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyChar()) {
+                    case 'e': // effacer l'affichage
+                        viruses = Collections.synchronizedList(new LinkedList<>());
+                        break;
+                    case 'q':
+                        System.exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                for (IVirus v : viruses) {
+                    virusLogic.reactToMouseEvent(e.getPoint().getX(), e.getPoint().getY(), v);
+                }
+           }
+        });
+    }
+
+    private void displayLauncher() {
+        ButtonGroup g = new ButtonGroup();
+        JRadioButton radioButtonEasy = new JRadioButton("Easy");
+        JRadioButton radioButtonMedium = new JRadioButton("Medium");
+        JRadioButton radioButtonHard = new JRadioButton("Hard");
+        g.add(radioButtonEasy);
+        g.add(radioButtonMedium);
+        g.add(radioButtonHard);
+        radioButtonEasy.setSelected(true);
+        launcher.add(radioButtonEasy);
+        launcher.add(radioButtonMedium);
+        launcher.add(radioButtonHard);
+        JButton buttonStart = new JButton("Start");
+        buttonStart.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                launcher.remove(radioButtonEasy);
+                launcher.remove(radioButtonMedium);
+                launcher.remove(radioButtonHard);
+                launcher.remove(buttonStart);
+                if(radioButtonEasy.isSelected()){
+                    startGame(1);
+                } else if (radioButtonMedium.isSelected()) {
+                    startGame(20);
+                }else if (radioButtonHard.isSelected()){
+                    startGame(30);
+                }
+            }
+        });
+        launcher.add(buttonStart);
+        var howTo = new JLabel("<html>WELCOME<br>In order to win the game, you must click on the viruses until their all disappear.<br>Have Fun ! </html>");
+        launcher.add(howTo);
+        launcher.setVisible(true);
+        launcher.revalidate();
+        launcher.repaint();
+    }
+
 
     @Override
     public int getWidth() {
-        return this.PANEL.getWidth();
+        return FRAME.getContentPane().getWidth();
     }
 
     @Override
     public int getHeight() {
-        return this.PANEL.getHeight();
+        return FRAME.getContentPane().getHeight();
     }
 
     @Override
     public Graphics2D getGraphics() {
-        return this.g2d;
+        return g2d;
     }
 
     @Override
     public void repaint() {
-        this.PANEL.getGraphics().drawImage(bufferedImage, 0, 0, null);
-        this.bufferedImage = (BufferedImage) this.PANEL.createImage(getWidth(), getHeight());
-        this.g2d = (Graphics2D) bufferedImage.getGraphics();
+//        Image img = Toolkit.getDefaultToolkit().getImage("..\\res\\virus.jpg");
+        FRAME.getContentPane().getGraphics().drawImage(bufferedImage, 0, 0, null);
+        bufferedImage = (BufferedImage) FRAME.getContentPane().createImage(getWidth(), getHeight());
+        g2d = (Graphics2D) bufferedImage.getGraphics();
     }
 
     @Override
@@ -110,5 +240,30 @@ public class DisplayerManager implements Displayer {
     @Override
     public void addMouseListener(MouseAdapter ma) {
         this.FRAME.addMouseListener(ma);
+    }
+    /**
+     * @brief ajoutes des formes a l'application
+     */
+    private void addVirus(IVirus virus) {
+        viruses.add(virus);
+
+    }
+
+    /**
+     * @brief ajoutes des formes vides a l'application
+     */
+    private void addVirusG() {
+        synchronized (viruses) {
+            addVirus(VIRUS_FACTORY.createVirusG());
+        }
+    }
+
+    /**
+     * @brief ajoutes des formes pleines a l'application
+     */
+    private void addVirusT() {
+        synchronized (viruses) {
+            addVirus(VIRUS_FACTORY.createVirusT());
+        }
     }
 }
