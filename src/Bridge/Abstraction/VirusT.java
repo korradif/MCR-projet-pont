@@ -1,3 +1,9 @@
+/**
+ * @name: VirusT.java
+ * @work: MCR-Pont
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
+ * @date: 06.06.2020
+ */
 package Bridge.Abstraction;
 
 import java.awt.Color;

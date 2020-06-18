@@ -1,7 +1,7 @@
 /**
  * @name: DisplayManager.java
  * @work: MCR-Pont
- * @authors: Guillaume Zaretti
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
  * @date: 06.06.2020
  */
 package app;
@@ -102,7 +102,7 @@ public class DisplayerManager implements Displayer {
 
                 synchronized (viruses) {
                     viruses.removeIf(e -> e.isDead());
-                    if(isGameRunning && viruses.isEmpty()){
+                    if (isGameRunning && viruses.isEmpty()) {
                         timer.cancel();
                         isGameRunning = false;
                         displayLauncher();
@@ -122,7 +122,8 @@ public class DisplayerManager implements Displayer {
             }
         }, INITIAL_DELAY, FRAME_RATE);
     }
-    public void launchLauncher(){
+
+    public void launchLauncher() {
         displayLauncher();
         FRAME.getContentPane().add(launcher);
         FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +155,7 @@ public class DisplayerManager implements Displayer {
                 for (IVirus v : viruses) {
                     virusLogic.reactToMouseEvent(e.getPoint().getX(), e.getPoint().getY(), v);
                 }
-           }
+            }
         });
     }
 
@@ -172,7 +173,8 @@ public class DisplayerManager implements Displayer {
         launcher.add(radioButtonHard);
         JButton buttonStart = new JButton("Start");
 
-        var howTo = new JLabel("<html>WELCOME<br>In order to win the game, you must click on the viruses until their all disappear.<br>Have Fun ! </html>");
+        var howTo = new JLabel(
+                "<html>WELCOME<br>In order to win the game, you must click on the viruses until their all disappear.<br>Have Fun ! </html>");
         launcher.add(howTo);
 
         buttonStart.addActionListener(new ActionListener() {
@@ -184,11 +186,11 @@ public class DisplayerManager implements Displayer {
                 launcher.remove(buttonStart);
                 launcher.remove(howTo);
 
-                if(radioButtonEasy.isSelected()){
+                if (radioButtonEasy.isSelected()) {
                     startGame(1);
                 } else if (radioButtonMedium.isSelected()) {
                     startGame(20);
-                }else if (radioButtonHard.isSelected()){
+                } else if (radioButtonHard.isSelected()) {
                     startGame(30);
                 }
             }
@@ -199,7 +201,6 @@ public class DisplayerManager implements Displayer {
         launcher.revalidate();
         launcher.repaint();
     }
-
 
     @Override
     public int getWidth() {
@@ -218,7 +219,7 @@ public class DisplayerManager implements Displayer {
 
     @Override
     public void repaint() {
-//        Image img = Toolkit.getDefaultToolkit().getImage("..\\res\\virus.jpg");
+        // Image img = Toolkit.getDefaultToolkit().getImage("..\\res\\virus.jpg");
         FRAME.getContentPane().getGraphics().drawImage(bufferedImage, 0, 0, null);
         bufferedImage = (BufferedImage) FRAME.getContentPane().createImage(getWidth(), getHeight());
         g2d = (Graphics2D) bufferedImage.getGraphics();
@@ -256,6 +257,7 @@ public class DisplayerManager implements Displayer {
     public void addMouseListener(MouseAdapter ma) {
         this.FRAME.addMouseListener(ma);
     }
+
     /**
      * @brief ajoutes des formes a l'application
      */

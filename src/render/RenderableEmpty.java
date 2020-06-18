@@ -1,7 +1,7 @@
 /**
  * @name: RenderableEmpty.java
  * @work: MCR-Pont
- * @authors: Guillaume Zaretti
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
  * @date: 06.06.2020
  */
 package render;

@@ -1,3 +1,9 @@
+/**
+ * @name: VirusFactory.java
+ * @work: MCR-Pont
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
+ * @date: 06.06.2020
+ */
 package factory;
 
 import java.awt.Color;

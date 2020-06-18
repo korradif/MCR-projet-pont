@@ -1,8 +1,15 @@
+/**
+ * @name: EBehaviourType.java
+ * @work: MCR-Pont
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
+ * @date: 06.06.2020
+ */
+
 package Bridge.Implementation.Behaviour;
 
 import Bridge.Abstraction.IVirus;
 
-public enum eBehaviourType {
+public enum EBehaviourType {
     //Objets directement construits
     BEHAVIOUR_LVL_1( BehaviourLvlOne.class),
     BEHAVIOUR_LVL_2 ( BehaviourLvlTwo.class),
@@ -10,18 +17,18 @@ public enum eBehaviourType {
 
     private Class _bheaviourType;
 
-    public eBehaviourType getNext() {
-        return this.ordinal() < eBehaviourType.values().length - 1
-                ? eBehaviourType.values()[this.ordinal() + 1]
-                : eBehaviourType.values()[0];
+    public EBehaviourType getNext() {
+        return this.ordinal() < EBehaviourType.values().length - 1
+                ? EBehaviourType.values()[this.ordinal() + 1]
+                : EBehaviourType.values()[0];
     }
 
     public boolean isLastValue(){
-        return this.ordinal() == eBehaviourType.values().length - 1;
+        return this.ordinal() == EBehaviourType.values().length - 1;
     }
 
     //Constructeur
-    eBehaviourType(Class bheaviourType){
+    EBehaviourType(Class bheaviourType){
         _bheaviourType = bheaviourType;
     }
 
@@ -29,7 +36,7 @@ public enum eBehaviourType {
         return _bheaviourType.toString();
     }
 
-    public static eBehaviourType getBehaviourTypeFormInstance(IVirus virus){
+    public static EBehaviourType getBehaviourTypeFormInstance(IVirus virus){
         String behaviour = virus.getBehaviour().getClass().toString();
         if(behaviour.equals(BehaviourLvlOne.class.toString())){
             return BEHAVIOUR_LVL_1;

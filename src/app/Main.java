@@ -1,7 +1,7 @@
 /**
  * @name: BounceApp.java
  * @work: MCR-Pont
- * @authors: Guillaume Zaretti
+ * @authors: Guillaume Zaretti, Alexandre Simik, Frédéric Korradi, Simon Flückiger
  * @date: 06.06.2020
  */
 package app;
@@ -10,7 +10,6 @@ package app;
  * @brief l'application
  */
 public class Main {
-    private static final String APP_NAME = "VirusGame";
 
     /**
      * @brief point d'entree du programme

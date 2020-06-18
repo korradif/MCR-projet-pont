@@ -5,7 +5,7 @@ import java.util.Random;
 
 import Bridge.Implementation.Behaviour.BehaviourLvlOne;
 import Bridge.Implementation.Behaviour.IBehaviour;
-import Bridge.Implementation.Behaviour.eBehaviourType;
+import Bridge.Implementation.Behaviour.EBehaviourType;
 import app.Displayer;
 import app.DisplayerManager;
 import render.Renderable;
@@ -61,8 +61,8 @@ public abstract class Virus implements IVirus {
     }
 
     @Override
-    public eBehaviourType getBehaviourType() {
-        return eBehaviourType.getBehaviourTypeFormInstance(this);
+    public EBehaviourType getBehaviourType() {
+        return EBehaviourType.getBehaviourTypeFormInstance(this);
     }
 
     @Override
