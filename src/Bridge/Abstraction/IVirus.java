@@ -1,15 +1,12 @@
 package Bridge.Abstraction;
 
 
-import Bridge.Implementation.Behaviour.Behaviour;
+import java.awt.Color;
+
 import Bridge.Implementation.Behaviour.IBehaviour;
 import Bridge.Implementation.Behaviour.eBehaviourType;
 import app.Bouncable;
-import jdk.jshell.spi.ExecutionControl;
 import render.Renderable;
-
-
-import java.awt.*;
 
 public interface IVirus extends Bouncable {
     void setBehaviour(IBehaviour behaviour);

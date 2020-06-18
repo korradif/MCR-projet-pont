@@ -1,10 +1,9 @@
 package BusinessLogic;
 
 import Bridge.Abstraction.IVirus;
-import Bridge.Implementation.Behaviour.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import Bridge.Implementation.Behaviour.BehaviourLvlOne;
+import Bridge.Implementation.Behaviour.BehaviourLvlThree;
+import Bridge.Implementation.Behaviour.BehaviourLvlTwo;
 
 public class VirusLogic {
 //returns if the virus is dead or not.
@@ -19,9 +18,8 @@ public class VirusLogic {
 
 
     public void reactToMouseEvent(double x, double y, IVirus virus) {
-        // TODO Ici on peut appeler ce qu'on veut en fonction de la position.
         if (virus.getShape().contains(x, y)) {
-            System.out.println("Touché !");
+            // System.out.println("Touché !");
             mutateVirus(virus);
         }
     }

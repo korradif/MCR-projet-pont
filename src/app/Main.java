@@ -6,18 +6,6 @@
  */
 package app;
 
-import Bridge.Abstraction.IVirus;
-import BusinessLogic.VirusLogic;
-import factory.VirusFactory;
-
-import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
-
-import java.util.*;
-
 /**
  * @brief l'application
  */

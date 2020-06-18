@@ -1,12 +1,11 @@
 package Bridge.Abstraction;
 
-import Bridge.Implementation.Behaviour.*;
-import jdk.jshell.spi.ExecutionControl;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Shape;
+
 import render.Renderable;
 import render.RenderableFull;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 public class VirusT extends Virus {
     private static final Renderable R_FULL = new RenderableFull();
     /**

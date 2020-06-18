@@ -1,12 +1,10 @@
 package factory;
 
+import java.awt.Color;
+
 import Bridge.Abstraction.IVirus;
 import Bridge.Abstraction.VirusG;
 import Bridge.Abstraction.VirusT;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class VirusFactory {
     private static final Color VIRUS_T_COLOR = Color.red;

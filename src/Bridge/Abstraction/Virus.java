@@ -1,13 +1,14 @@
 package Bridge.Abstraction;
 
-import Bridge.Implementation.Behaviour.*;
-import app.Bouncable;
+import java.awt.Color;
+import java.util.Random;
+
+import Bridge.Implementation.Behaviour.BehaviourLvlOne;
+import Bridge.Implementation.Behaviour.IBehaviour;
+import Bridge.Implementation.Behaviour.eBehaviourType;
 import app.Displayer;
 import app.DisplayerManager;
 import render.Renderable;
-
-import java.awt.*;
-import java.util.Random;
 
 public abstract class Virus implements IVirus {
     private static final int MIN_SIZE = 60;
