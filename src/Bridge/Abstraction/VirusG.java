@@ -6,19 +6,18 @@
  */
 package Bridge.Abstraction;
 
-import render.Renderable;
-import render.RenderableFull;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
+import render.RenderableFull;
+
 public class VirusG extends Virus {
-    private static final Renderable R_FULL = new RenderableFull();
     /**
      * @brief constructeur
      * @param color la couleur de la forme
      */
-    public VirusG(Color color) { super(color, R_FULL); }
+    public VirusG(Color color) { super(color,  new RenderableFull()); }
 
     @Override
     public Shape getShape() {

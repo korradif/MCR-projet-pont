@@ -48,7 +48,7 @@ public class DisplayerManager implements Displayer {
     private Collection<IVirus> viruses;
     private Timer timer;
 
-    public final JFrame FRAME;
+    private final JFrame FRAME;
     private final Panel launcher;
 
     private BufferedImage bufferedImage;
