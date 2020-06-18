@@ -53,7 +53,6 @@ public class DisplayerManager implements Displayer {
 
     private BufferedImage bufferedImage;
     private Graphics2D g2d;
-    private int nbViruses;
     private boolean isGameRunning;
 
     /**
@@ -81,13 +80,13 @@ public class DisplayerManager implements Displayer {
         virusLogic = new VirusLogic();
 
     }
+
     public void startGame(int nbInitialViruses) {
         isGameRunning = true;
-        for(int i = 0; i<nbInitialViruses;++i) {
+        for (int i = 0; i < nbInitialViruses; ++i) {
             addVirusG();
             addVirusT();
         }
-        nbViruses = nbInitialViruses * 2; //because 2 types of viruses
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -172,14 +171,19 @@ public class DisplayerManager implements Displayer {
         launcher.add(radioButtonMedium);
         launcher.add(radioButtonHard);
         JButton buttonStart = new JButton("Start");
-        buttonStart.addActionListener(new ActionListener(){
 
+        var howTo = new JLabel("<html>WELCOME<br>In order to win the game, you must click on the viruses until their all disappear.<br>Have Fun ! </html>");
+        launcher.add(howTo);
+
+        buttonStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 launcher.remove(radioButtonEasy);
                 launcher.remove(radioButtonMedium);
                 launcher.remove(radioButtonHard);
                 launcher.remove(buttonStart);
+                launcher.remove(howTo);
+
                 if(radioButtonEasy.isSelected()){
                     startGame(1);
                 } else if (radioButtonMedium.isSelected()) {
@@ -190,8 +194,7 @@ public class DisplayerManager implements Displayer {
             }
         });
         launcher.add(buttonStart);
-        var howTo = new JLabel("<html>WELCOME<br>In order to win the game, you must click on the viruses until their all disappear.<br>Have Fun ! </html>");
-        launcher.add(howTo);
+
         launcher.setVisible(true);
         launcher.revalidate();
         launcher.repaint();
